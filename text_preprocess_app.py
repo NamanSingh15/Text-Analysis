@@ -11,7 +11,7 @@ from nltk.corpus import wordnet
 from docx import Document
 # nltk.download('wordnet')  
 
-# preprocessing the text
+# preprocessing the text  - removing stopwords, punctuation, lemmatization
 st.cache_data
 def preprocess(text):
     lemmatizer = WordNetLemmatizer()
