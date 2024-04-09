@@ -30,7 +30,7 @@ def preprocess(text):
 
 # Function to extract keywords from text using the model
 st.cache_data
-def extract_keywords(text, n):
+def extract_keywords(text,   n):
     preprocessed_text = preprocess(text)
     
     # can use pre trained model like BERT, GPT-2, etc. for keyword extraction
@@ -70,6 +70,7 @@ if uploaded_file is not None:
     if uploaded_file.type == 'text/plain':
         text = uploaded_file.getvalue().decode("utf-8")
         
+        
     elif uploaded_file.type == 'application/pdf':
         text = ""
         try:
@@ -93,18 +94,40 @@ if uploaded_file is not None:
     else:
         st.error("Unsupported file format. Please upload a .txt or .pdf or a .docx file.")
         st.stop()
-    
-    # Extract keywords
-    keywords = extract_keywords(text, num_keywords)
         
-    # Display extracted keywords
-    st.write('Keywords:', ', '.join(keywords))
-    
-    
-    # Downloadable results
-    keywords_str = ', '.join(keywords)
-    st.download_button(
-        label="Download keywords",
-        data=keywords_str,
-        file_name='keywords.txt',
-        mime='text/plain',)
+    try:
+        # Extract keywords
+        keywords = extract_keywords(text, num_keywords)
+    except ValueError:
+        st.error("Error processing the file. Please check your file and make sure it contains valid text.")
+        st.stop()
+        
+        
+    # Radio buttons for extraction method
+    extraction_method = st.radio('Choose an extraction method:', ('Frequency Based', 'Algorithm Based'))
+
+    # Buttons for extraction method
+    if extraction_method == 'Frequency Based':
+        # Extract keywords
+        keywords = extract_keywords(text, num_keywords)
+                
+        # Display extracted keywords
+        st.write('Keywords:', ', '.join(keywords))
+
+        # Downloadable results
+        keywords_str = ', '.join(keywords)
+        st.download_button(     
+            label="Download keywords",
+            data=keywords_str,
+            file_name='keywords.txt',
+            mime='text/plain',)
+        
+    elif extraction_method == 'Algorithm Based':
+        st.write('Coming soon!')
+        keywords = 'Coming soon!'
+        keywords_str = ', '.join(keywords)
+        st.download_button(
+            label="Download keywords",
+            data=keywords_str,
+            file_name='keywords.txt',
+            mime='text/plain',)
