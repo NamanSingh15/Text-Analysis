@@ -12,7 +12,7 @@ from docx import Document
 # nltk.download('wordnet')  
 
 # preprocessing the text  - removing stopwords, punctuation, lemmatization
-st.cache_data
+@st.cache_data
 def preprocess(text):
     lemmatizer = WordNetLemmatizer()
     #stemmer = nltk.PorterStemmer()
@@ -29,7 +29,7 @@ def preprocess(text):
     return ' '.join(lemmatized_tokens_no_punct)
 
 # Function to extract keywords from text using the model
-st.cache_data
+@st.cache_data
 def extract_keywords(text,   n):
     preprocessed_text = preprocess(text)
     
